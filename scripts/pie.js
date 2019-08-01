@@ -12,17 +12,39 @@ var width = 500,
                     //62 neighbourhoods in total
   colors = d3.scale.category20();
 
-// read in data from csv file
-var dataobj = [];
-d3.csv("listings_airbnb.csv", function(d){
 
-  dataobj.push ({
-  neighbourhood : d.neighbourhood,
-  room_type : d.room_type,
-  price : d.price,
-  availablity_365 : d.availablity_365
+// // Synthetic data generation ------------------------------------------------
+// var data = [];
+// var numSectors =  MAX_SECTORS;
+// for (i = -1; i++ < numSectors;) {
+//   var children = [];
+//   var numChildSectors = 3;
+//   var color = colors(i);
+//   for (j = -1; j++ < numChildSectors-1;) {
+//     // Add children categories with shades of the parent color
+//     children.push({
+//       cat: load_data.neighbourhood,//"cat" + ((i + 1) * 100 + j),
+//       val: 1/3,//Math.random(), //room_type divided into 3 parts proportion to number of room types, not 1/3
+//       color: d3.rgb(color).darker(0.7 / (j + 1))
+//     });
+//   }
+//
+//   data.push({
+//     cat: load_data.neighbourhood, //show neightbourd need to add in mouseover details
+//     val: 1/62, //dataobj.room_type
+//     color: color,
+//     children: children
+//   });
+//
+// }
+
+// read in data from csv file
+
+var dataobj = d3.csv("listings_airbnb.csv").then(function(data) {
+  data.forEach(function(d) {
+    neighbourhood = d.neighbourhood;
   });
-  return dataobj;
+
 });
 
 // Synthetic data generation ------------------------------------------------
@@ -35,13 +57,13 @@ for (i = -1; i++ < numSectors;) {
   for (j = -1; j++ < numChildSectors-1;) {
     // Add children categories with shades of the parent color
     children.push({
-      cat: dataobj.neighbourhood,//"cat" + ((i + 1) * 100 + j),
+      cat: "cat" + ((i + 1) * 100 + j),
       val: 1/3,//Math.random(), //room_type divided into 3 parts proportion to number of room types, not 1/3
       color: d3.rgb(color).darker(0.7 / (j + 1))
     });
   }
   data.push({
-    cat: dataobj.neighbourhood, //show neightbourd need to add in mouseover details
+    cat: dataobj[i].neighbourhood, //show neightbourd need to add in mouseover details
     val: Math.random(), //dataobj.room_type
     color: color,
     children: children
