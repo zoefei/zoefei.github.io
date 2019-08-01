@@ -13,15 +13,15 @@ var width = 500,
   colors = d3.scale.category20();
 
 // read in data from csv file
-const dataobj;
+var dataobj = [];
 d3.csv("listings_airbnb.csv", function(d){
 
-  dataobj ={
+  dataobj.push ({
   neighbourhood : d.neighbourhood,
   room_type : d.room_type,
   price : d.price,
   availablity_365 : d.availablity_365
-  };
+  });
   return dataobj;
 });
 
