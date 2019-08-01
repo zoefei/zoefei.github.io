@@ -13,9 +13,10 @@ var width = 500,
   colors = d3.scale.category20();
 
 // read in data from csv file
+const dataobj;
 d3.csv("listings_airbnb.csv", function(d){
 
-  const dataobj ={
+  dataobj ={
   neighbourhood : d.neighbourhood,
   room_type : d.room_type,
   price : d.price,
