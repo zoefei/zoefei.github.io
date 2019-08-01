@@ -27,27 +27,26 @@
       <p>Data visulization for Tokyo Airbnb dataset
          Data source: http://insideairbnb.com/get-the-data.html</p>
 
-      <div id='dashboard'>
-      </div>
-      <script src="http://d3js.org/d3.v3.min.js"></script>
-      <script src="scripts/bart_chart.js"></script>
-      <script src="scripts/pie_chart.js"></script>
-      <script>
-        var freqData=[
-        {State:'AM',freq:{low:10.9, mid:11.3, high:8.1}}
-        ,{State:'BA',freq:{low:11.4, mid:12.2, high:11.8}}
-        ,{State:'CE',freq:{low:8.6, mid:7.7, high:7.1}}
-        ,{State:'DF',freq:{low:20.9, mid:13, high:16.1}}
-        ,{State:'ES',freq:{low:10.3, mid:10.9, high:14.5}}
-        ,{State:'GO',freq:{low:10.5, mid:11.4, high:13.3}}
-        ];
-        dashboard('#dashboard',freqData);
-    </script>
-
 
     </div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/anchor-js/4.1.0/anchor.min.js" integrity="sha256-lZaRhKri35AyJSypXXs4o6OPFTbTmUoltBbDCbdzegg=" crossorigin="anonymous"></script>
     <script>anchors.add();</script>
+    <div id='dashboard'>
+    </div>
+    <script src="http://d3js.org/d3.v3.min.js"></script>
+    <script src="scripts/bar_chart.js"></script>
+    <script src="scripts/pie_chart.js"></script>
+    <script>
+      var freqData=[
+      {State:'AM',freq:{low:10.9, mid:11.3, high:8.1}}
+      ,{State:'BA',freq:{low:11.4, mid:12.2, high:11.8}}
+      ,{State:'CE',freq:{low:8.6, mid:7.7, high:7.1}}
+      ,{State:'DF',freq:{low:20.9, mid:13, high:16.1}}
+      ,{State:'ES',freq:{low:10.3, mid:10.9, high:14.5}}
+      ,{State:'GO',freq:{low:10.5, mid:11.4, high:13.3}}
+      ];
+      dashboard('#dashboard',freqData);
+      </script>
 
   </body>
 </html>
