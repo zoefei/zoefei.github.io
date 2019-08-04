@@ -8,16 +8,20 @@
     <!-- Begin Jekyll SEO tag v2.5.0 -->
     <title>zoefei.github.io</title>
     <style>
-    .button {
-      background-color: #555555;
-      border:none;
-      color:white;
-      padding: 15px 32px;
-      text-align: center;
-      text-decoration: none;
-      display: inline-block;
-      font-size: 16px;
-    }
+      .button {
+        background-color: white;
+        border:2px solid #555555;
+        color:black;
+        padding: 10px 30px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+      }
+      .button:hover {
+        background-color: #555555;
+        color: white;
+      }
     </style>
     <meta name="generator" content="Jekyll v3.8.5" />
     <meta property="og:title" content="zoefei.github.io" />
@@ -44,8 +48,8 @@
 
   <!-- Add 2 buttons -->
   <button class="button" onclick="update(data1)">number of room</button>
-  <button onclick="update(data2)">revenue made</button>
-  <button onclick="update(data3)">review given</button>
+  <button class="button" onclick="update(data2)">revenue made</button>
+  <button class="button" onclick="update(data3)">review given</button>
 
   <!-- Create a div where the graph will take place -->
   <div id="my_dataviz"></div>
