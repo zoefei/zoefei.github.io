@@ -1,143 +1,162 @@
 <!DOCTYPE html>
-<meta charset="utf-8">
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- <title>Visualizing Data for Tokyo Airbnb</title> -->
 
-<!-- Load d3.js -->
-<script src="https://d3js.org/d3.v4.js"></script>
+    <!-- Begin Jekyll SEO tag v2.5.0 -->
+    <title>zoefei.github.io</title>
+    <meta name="generator" content="Jekyll v3.8.5" />
+    <meta property="og:title" content="zoefei.github.io" />
+    <meta property="og:locale" content="en_US" />
+    <link rel="canonical" href="https://zoefei.github.io/" />
+    <meta property="og:url" content="https://zoefei.github.io/" />
+    <meta property="og:site_name" content="zoefei.github.io" />
+    <script type="application/ld+json">
+    {"@type":"WebSite","headline":"zoefei.github.io","url":"https://zoefei.github.io/","name":"zoefei.github.io","@context":"http://schema.org"}</script>
+    <!-- End Jekyll SEO tag -->
+    <link rel="stylesheet" href="/assets/css/style.css?v=10e8841ee325f34223c31a975daa82ef57d3bfb6">
+  </head>
+  <body>
+    <div class="container-lg px-3 my-5 markdown-body">
+      <h1 id="zoefeigithubio">Visualizing Tokyo Airbnb dataset</h1>
+      <p> Data Visualization for Tokyo area <br>
+          Data source: http://insideairbnb.com/get-the-data.html</p>
+    </div>
+  <!-- Load d3.js -->
+  <script src="https://d3js.org/d3.v4.js"></script>
 
-<!-- Color scale -->
-<script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
+  <!-- Color scale -->
+  <script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
 
-<!-- Add 2 buttons -->
-<button onclick="update(data1)">number of room</button>
-<button onclick="update(data2)">revenue made</button>
-<button onclick="update(data3)">review</button>
+  <!-- Add 2 buttons -->
+  <button onclick="update(data1)">number of room</button>
+  <button onclick="update(data2)">revenue made</button>
+  <button onclick="update(data3)">review given</button>
 
-<!-- Create a div where the graph will take place -->
-<div id="my_dataviz"></div>
-<!-- <svg width="50" height="50">
- <circle cx="20" cy="20" r="10" fill="purple"/circle>
-</svg>
-<svg width="50" height="50">
- <circle cx="20" cy="20" r="10" fill="orange"/circle>
-</svg>
-<svg width="50" height="50">
- <circle cx="20" cy="20" r="10" fill="green"/circle>
-</svg> -->
-<svg width="100" height="100">
-  <circle cx="20" cy="20" r="10" fill="green" />
-  <circle cx="20" cy="50" r="10" fill="purple" />
-  <circle cx="20" cy="80" r="10" fill="orangered" />
-  <text x="40" y="25" font-family="sans-serif" font-size="10px" fill="black">Private room</text>
-  <text x="40" y="55" font-family="sans-serif" font-size="10px" fill="black">Shared room</text>
-  <text x="40" y="85" font-family="sans-serif" font-size="10px" fill="black">Entire room</text>
-</svg>
-<script>
+  <!-- Create a div where the graph will take place -->
+  <div id="my_dataviz"></div>
 
-// set the dimensions and margins of the graph
-var width = 450
-    height = 450
-    margin = 40
+  <svg width="100" height="100">
+    <circle cx="20" cy="20" r="10" fill="green" />
+    <circle cx="20" cy="50" r="10" fill="purple" />
+    <circle cx="20" cy="80" r="10" fill="orangered" />
+    <text x="40" y="25" font-family="sans-serif" font-size="10px" fill="black">Private room</text>
+    <text x="40" y="55" font-family="sans-serif" font-size="10px" fill="black">Shared room</text>
+    <text x="40" y="85" font-family="sans-serif" font-size="10px" fill="black">Entire room</text>
+  </svg>
+  <script>
 
-// The radius of the pieplot is half the width or half the height (smallest one). I subtract a bit of margin.
-var radius = Math.min(width, height) / 2 - margin
+    // set the dimensions and margins of the graph
+    var width = 450
+        height = 450
+        margin = 40
 
-// append the svg object to the div called 'my_dataviz'
-var svg = d3.select("#my_dataviz")
-  .append("svg")
-    .attr("width", width)
-    .attr("height", height)
-  .append("g")
-    .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
+    // The radius of the pieplot is half the width or half the height (smallest one). I subtract a bit of margin.
+    var radius = Math.min(width, height) / 2 - margin
 
-var co;
-var fruit = 2;
-//import data
-d3.csv("https://github.com/kthotav/D3Visualizations/blob/master/Pie_Charts/data.csv", function(error, data) {
-      if (error) throw error;
-      data.forEach(function(d){
-            co = d.count;
-           }) }
-)
-// create 3 data_set
-    var data1 = {a: 80, b: 90, c:998, d:0, e:0, f:0}
-    var data2 = {a: 30, b: 16, c:20, d:0, e:0, f:0}
-    var data3 = {a: 90, b: 16, c:20, d:0, e:0, f:0}
-// set the color scale
-var color = d3.scaleOrdinal()
-  .domain(["a", "b", "c", "d", "e", "f"])
-  .range(d3.schemeDark2);
+    // append the svg object to the div called 'my_dataviz'
+    var svg = d3.select("#my_dataviz")
+      .append("svg")
+        .attr("width", width)
+        .attr("height", height)
+      .append("g")
+        .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
 
-// A function that create / update the plot for a given variable:
-function update(data) {
-
-  // Compute the position of each group on the pie:
-  var pie = d3.pie()
-    .value(function(d) {return d.value; })
-    .sort(function(a, b) { console.log(a) ; return d3.ascending(a.key, b.key);} ) // This make sure that group order remains the same in the pie chart
-  var data_ready = pie(d3.entries(data))
-
-var Tooltip = d3.select("#my_dataviz")
-                .append("div")
-                .style("opacity",0)
-                .attr("class","tooltip")
-                .style("border","solid")
-                .style("border-width","2px")
-                .style("border-radius","5px")
-                .style("padding","5px")
-var mouseover = function(d){
-Tooltip.style("opacity",1)
-d3.select(this)
-.style("stroke", "black")
-      .style("opacity", 1)
-}
-  var mousemove = function(d) {
-    Tooltip
-      .html("The percentage of this cell is: "+ d.value + "%")
-      .style("left", (d3.event.pageX) + "px")
-      .style("top", (d3.event.pageY) + "px")
-  }
-  var mouseleave = function(d) {
-    Tooltip
-      .style("opacity", 0)
-    d3.select(this)
-      .style("stroke", "none")
-      .style("opacity", 0.8)
-  }
-
-  // map to data
-  var u = svg.selectAll("path")
-    .data(data_ready)
-
-  // Build the pie chart: Basically, each part of the pie is a path that we build using the arc function.
-  u
-    .enter()
-    .append('path')
-    .merge(u)
-    .transition()
-    .duration(1000)
-    .attr('d', d3.arc()
-      .innerRadius(0)
-      .outerRadius(radius)
+    var co;
+    var fruit = 2;
+    //import data
+    d3.csv("https://github.com/kthotav/D3Visualizations/blob/master/Pie_Charts/data.csv", function(error, data) {
+          if (error) throw error;
+          data.forEach(function(d){
+                co = d.count;
+               }) }
     )
-    .attr('fill', function(d){ return(color(d.data.key)) })
-    .attr("stroke", "white")
-    .style("stroke-width", "2px")
-    .style("opacity", 1)
-u.on("mouseover",mouseover);
-u.on("mousemove",mousemove);
-u.on("mouseleave",mouseleave);
+    // create 3 data_set
+        var data1 = {a: 26.2, b: 65.1, c:8.7, d:0, e:0, f:0}
+        var data2 = {a: 18.34, b: 78.96, c:2.69, d:0, e:0, f:0}
+        var data3 = {a: 20.18, b: 74.91, c:4.89, d:0, e:0, f:0}
+    // set the color scale
+    var color = d3.scaleOrdinal()
+      .domain(["a", "b", "c", "d", "e", "f"])
+      .range(d3.schemeDark2);
 
-  // remove the group that is not present anymore
-  u
-    .exit()
-    .remove()
+    // A function that create / update the plot for a given variable:
+    function update(data) {
 
-}
+      // Compute the position of each group on the pie:
+      var pie = d3.pie()
+        .value(function(d) {return d.value; })
+        .sort(function(a, b) { console.log(a) ; return d3.ascending(a.key, b.key);} ) // This make sure that group order remains the same in the pie chart
+      var data_ready = pie(d3.entries(data))
 
-// Initialize the plot with the first dataset
-update(data1)
-update(data2)
-update(data3)
+    var Tooltip = d3.select("#my_dataviz")
+                    .append("div")
+                    .style("opacity",0)
+                    .attr("class","tooltip")
+                    .style("border","solid")
+                    .style("border-width","2px")
+                    .style("border-radius","5px")
+                    .style("padding","5px")
+    var mouseover = function(d){
+    Tooltip.style("opacity",1)
+    d3.select(this)
+    .style("stroke", "black")
+          .style("opacity", 1)
+    }
+      var mousemove = function(d) {
+        Tooltip
+          .html("The percentage of this cell is: "+ d.value + "%")
+          .style("left", (d3.event.pageX) + "px")
+          .style("top", (d3.event.pageY) + "px")
+      }
+      var mouseleave = function(d) {
+        Tooltip
+          .style("opacity", 0)
+        d3.select(this)
+          .style("stroke", "none")
+          .style("opacity", 0.8)
+      }
+
+      // map to data
+      var u = svg.selectAll("path")
+        .data(data_ready)
+
+      // Build the pie chart: Basically, each part of the pie is a path that we build using the arc function.
+      u
+        .enter()
+        .append('path')
+        .merge(u)
+        .transition()
+        .duration(1000)
+        .attr('d', d3.arc()
+          .innerRadius(0)
+          .outerRadius(radius)
+        )
+        .attr('fill', function(d){ return(color(d.data.key)) })
+        .attr("stroke", "white")
+        .style("stroke-width", "2px")
+        .style("opacity", 1)
+    u.on("mouseover",mouseover);
+    u.on("mousemove",mousemove);
+    u.on("mouseleave",mouseleave);
+
+      // remove the group that is not present anymore
+      u
+        .exit()
+        .remove()
+
+    }
+
+    // Initialize the plot with the first dataset
+    update(data1)
+    update(data2)
+    update(data3)
 
 </script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/anchor-js/4.1.0/anchor.min.js" integrity="sha256-lZaRhKri35AyJSypXXs4o6OPFTbTmUoltBbDCbdzegg=" crossorigin="anonymous"></script>
+  <script>anchors.add();</script>
+  </body>
 </html>
